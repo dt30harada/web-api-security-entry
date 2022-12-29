@@ -1,0 +1,39 @@
+version: "3"
+services:
+    web:
+        image: nginx:1.20-alpine
+        ports:
+            - '${DOCKER_WEB_PORT:-3001}:80'
+            - '${DOCKER_API_PORT:-8081}:80'
+        volumes:
+            - ./public:/var/www/html/public
+            - ./docker/web/conf.d:/etc/nginx/conf.d
+        working_dir: /var/www/html
+        depends_on:
+            - app
+    app:
+        build: ./docker/app
+        volumes:
+            - .:/var/www/html
+            - vendor-store:/var/www/html/vendor
+            - node_modules-store:/var/www/html/node_modules
+            - ./docker/app/php.ini:/usr/local/etc/php/php.ini
+            - ./docker/app/xdebug.ini:/usr/local/etc/php/conf.d/xdebug.ini
+        working_dir: /var/www/html
+        depends_on:
+            - db
+    db:
+        image: mysql:8.0
+        environment:
+            MYSQL_ROOT_PASSWORD: '${DB_PASSWORD}'
+            MYSQL_DATABASE: '${DB_DATABASE}'
+            TZ: Asia/Tokyoa
+        volumes:
+            - db-store:/var/lib/mysql
+            - ./docker/db/conf.d:/etc/mysql/conf.d
+        ports:
+            - '${DOCKER_DB_PORT:-13306}:3306'
+volumes:
+    vendor-store:
+    node_modules-store:
+    db-store:

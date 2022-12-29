@@ -1,0 +1,171 @@
+#!/usr/bin/env bash
+
+# Is the environment running
+PSRESULT="$(docker-compose ps -q)"
+if [ ! -z "$PSRESULT" ]; then
+    EXEC="yes"
+else
+    EXEC="no"
+fi
+
+# Create base docker-compose command to run
+COMPOSE="docker-compose"
+
+# If we pass any arguments...
+if [ $# -gt 0 ]; then
+
+    # Source .env, which can over-ride env vars
+    # such as APP_PORT, MYSQL_PORT, and WWWUSER
+    # if [ -f .env ]; then
+    #     source .env
+    # fi
+
+    # Start up containers
+    if [ "$1" == "start" ]; then
+        $COMPOSE up -d
+
+    # Stop the containers
+    elif [ "$1" == "stop" ]; then
+        $COMPOSE down
+
+    # If "php" is used, pass-thru to "php"
+    # inside a new container
+    elif [ "$1" == "php" ]; then
+        shift 1
+        if [ "$EXEC" == "yes" ]; then
+            $COMPOSE exec \
+                app \
+                php "$@"
+        else
+            $COMPOSE run --rm \
+                app \
+                php "$@"
+        fi
+
+    # If "art" is used, pass-thru to "artisan"
+    # inside a new container
+    elif [ "$1" == "artisan" ] || [ "$1" == "art" ]; then
+        shift 1
+        if [ "$EXEC" == "yes" ]; then
+            $COMPOSE exec \
+                app \
+                php artisan "$@"
+        else
+            $COMPOSE run --rm \
+                app \
+                php artisan "$@"
+        fi
+
+    # If "composer" is used, pass-thru to "composer"
+    # inside a new container
+    elif [ "$1" == "composer" ] || [ "$1" == "comp" ]; then
+        shift 1
+        if [ "$EXEC" == "yes" ]; then
+            $COMPOSE exec \
+                app \
+                composer "$@"
+            $COMPOSE cp app:/var/www/html/vendor .
+            echo 'Copied vendor from container to host.'
+        else
+            $COMPOSE run --rm \
+                app \
+                composer "$@"
+        fi
+
+    # If "test" is used, run unit tests,
+    # pass-thru any extra arguments to php-unit
+    elif [ "$1" == "test" ]; then
+        shift 1
+        if [ "$EXEC" == "yes" ]; then
+            $COMPOSE exec \
+                app \
+                php artisan test "$@"
+        else
+            $COMPOSE run --rm \
+                app \
+                php artisan test "$@"
+        fi
+
+    # If "tinker" is used, drop into the REPL
+    # inside a new container
+    elif [ "$1" == "tinker" ] ; then
+        shift 1
+        if [ "$EXEC" == "yes" ]; then
+            $COMPOSE exec \
+                app \
+                php artisan tinker
+        else
+            $COMPOSE run --rm \
+                app \
+                php artisan tinker
+        fi
+
+    # If "node" is used, run node
+    # from our node container
+    elif [ "$1" == "node" ]; then
+        shift 1
+        if [ "$EXEC" == "yes" ]; then
+            $COMPOSE exec \
+                app \
+                node "$@"
+        else
+            $COMPOSE run --rm \
+                app \
+                node "$@"
+        fi
+
+    # If "npm" is used, run npm
+    # from our node container
+    elif [ "$1" == "npm" ]; then
+        shift 1
+        if [ "$EXEC" == "yes" ]; then
+            $COMPOSE exec \
+                app \
+                npm "$@"
+            if [ "$1" == "ci" -o "$1" == "install" -o "$1" == "i" ]; then
+                $COMPOSE cp app:/var/www/html/node_modules .
+                echo 'Copied node_modules from container to host.'
+            fi
+        else
+            $COMPOSE run --rm \
+                app \
+                npm "$@"
+        fi
+
+    # If "mysql" is used, run mysql
+    # from our mysql container
+    elif [ "$1" == "db" ]; then
+        shift 1
+        if [ "$EXEC" == "yes" ]; then
+            $COMPOSE exec \
+                db \
+                bash -c 'MYSQL_PWD=$MYSQL_ROOT_PASSWORD mysql -u root $MYSQL_DATABASE'
+        else
+            echo "Error: This command can only be run while a MySQL container is running mysqld (mysql server)."
+            echo "This command cannot run the server and the mysql client at the same time."
+        fi
+
+    # If "ssh" is used, pass-thru to "ssh"
+    # inside a new container
+    # e.g.: ./vessel ssh app
+    # e.g.: ./vessel ssh mysql
+    elif [ "$1" == "ssh" ]; then
+        shift 1
+        if [ "$EXEC" == "yes" ] && [ "$1" != "node" ]; then
+            $COMPOSE exec \
+                $1 \
+                bash
+        else
+            $COMPOSE run --rm \
+                $1 \
+                bash
+        fi
+
+    # Else, pass-thru args to docker-compose
+    else
+        $COMPOSE "$@"
+    fi
+else
+    # Use the docker-compose ps command if nothing else passed through
+    $COMPOSE ps
+fi
