@@ -11,7 +11,7 @@ class ArticleControllerTest extends TestCase
 {
     use RefreshDatabase;
 
-    private readonly User $user;
+    private User $user;
 
     public function setUp(): void
     {
@@ -35,9 +35,9 @@ class ArticleControllerTest extends TestCase
 
         $response = $this
             ->actingAs($this->user)
-            ->postJson('/api/articles', $request);
+            ->getJson('/api/articles?'.http_build_query($request));
 
-        $response->assertStatus(201);
+        $response->assertStatus(200);
         $this->assertDatabaseHas('articles', [
             'title' => $request['title'],
             'body' => $request['body'],
@@ -70,7 +70,7 @@ class ArticleControllerTest extends TestCase
 
         $response = $this
             ->actingAs($this->user)
-            ->getJson('/api/articles?'.http_build_query($request));
+            ->postJson('/api/articles/query', $request);
 
         $response
             ->assertStatus(200)

@@ -45,7 +45,7 @@ final class ArticleController extends Controller
 
         $query = DB::table('articles as a')
             ->join('users as u', 'a.user_id', 'u.id')
-            ->orderByDesc('created_at');
+            ->orderByDesc('a.created_at');
 
         if ($request->has('title')) {
             $query->whereRaw("title collate utf8_unicode_ci like '%{$request->title}%'");
