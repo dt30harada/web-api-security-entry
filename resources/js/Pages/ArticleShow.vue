@@ -14,18 +14,20 @@
           <button @click="onClickDelete">削除</button>
         </div>
       </div>
-      <div class="body" v-html="article.body"></div>
+      <div class="body" v-html="htmlBody"></div>
     </div>
   </div>
 </template>
 
 <script>
+import { marked } from 'marked'
 import articleRepository from '@/repositories/articleRepository'
 
 export default {
   data() {
     return {
       article: {},
+      htmlBody: '',
     }
   },
   mounted() {
@@ -44,6 +46,9 @@ export default {
         this.$router.push({ name: 'articles' })
       }
       this.article = article
+      if (article.body) {
+        this.htmlBody = marked(article.body)
+      }
     },
     async onClickEdit() {
       this.$router.push({ name: 'articles-edit', params: { id: this.article.id } })

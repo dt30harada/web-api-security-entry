@@ -90,7 +90,7 @@ final class ArticleController extends Controller
                 'user_login_id' => $article->user->login_id,
                 'is_owner' => $request->user()->id === $article->user_id,
                 'title' => $_article['title'],
-                'body' => nl2br($_article['body']),
+                'body' => $_article['body'],
                 'created_at' => $_article['created_at'],
                 'updated_at' => $_article['updated_at'],
             ],

@@ -60,6 +60,11 @@ export default {
 
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&display=swap');
+*,
+*:before,
+*:after {
+  box-sizing: border-box;
+}
 body {
   font-family: 'Noto Sans JP', '游ゴシック体', YuGothic, '游ゴシック', 'Yu Gothic', 'メイリオ',
     'Hiragino Kaku Gothic ProN', 'Hiragino Sans', sans-serif;
