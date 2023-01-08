@@ -70,4 +70,8 @@ cp .env.example .env
 ./vessel composer i
 ```
 
-`http://localhost:3001` にアクセス
+サンプルアプリケーションにアクセス
+
+```bash
+open http://localhost:3001/login
+```
