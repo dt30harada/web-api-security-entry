@@ -19,7 +19,7 @@ class ArticleControllerTest extends TestCase
 
         $this->user = User::factory()->createOne([
             'login_id' => 'admin',
-            'password' => md5('123456'),
+            'password' => md5('12345678'),
         ]);
     }
 

@@ -10,9 +10,9 @@ class PasswrodControllerTest extends TestCase
 {
     use RefreshDatabase;
 
-    private const PASSWORD = '123456';
+    private const PASSWORD = '12345678';
 
-    private readonly User $user;
+    private User $user;
 
     public function setUp(): void
     {

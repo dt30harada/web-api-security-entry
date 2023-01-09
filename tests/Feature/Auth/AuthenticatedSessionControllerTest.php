@@ -10,7 +10,7 @@ class AuthenticatedSessionControllerTest extends TestCase
 {
     use RefreshDatabase;
 
-    private readonly User $user;
+    private User $user;
 
     public function setUp(): void
     {
@@ -18,7 +18,7 @@ class AuthenticatedSessionControllerTest extends TestCase
 
         $this->user = User::factory()->createOne([
             'login_id' => 'admin',
-            'password' => md5('123456'),
+            'password' => md5('12345678'),
         ]);
     }
 
@@ -29,7 +29,7 @@ class AuthenticatedSessionControllerTest extends TestCase
     {
         $request = [
             'login_id' => 'admin',
-            'password' => '123456',
+            'password' => '12345678',
         ];
 
         $response = $this->postJson('/api/auth/login', $request);
