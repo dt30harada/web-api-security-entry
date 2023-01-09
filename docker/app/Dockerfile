@@ -18,4 +18,6 @@ RUN apt-get update \
 ENV COMPOSER_ALLOW_SUPERUSER 1
 COPY --from=composer /usr/bin/composer /usr/bin/composer
 
+ENV LANG C.UTF-8
+
 WORKDIR /var/www/html
