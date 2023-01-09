@@ -44,7 +44,7 @@ final class PasswrodController extends Controller
     public function update(Request $request): JsonResponse
     {
         $request->validate([
-            'password' => ['required', 'string'],
+            'password' => ['required', 'string', 'max:255', 'regex:/\A[0-9a-z]++\z/ui'],
         ]);
 
         $attributes = $request->all();
