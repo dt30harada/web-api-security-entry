@@ -20,7 +20,7 @@ final class RegisteredUserController extends Controller
     {
         $request->validate([
             'login_id' => ['required', 'string', 'max:10', 'unique:'.User::class],
-            'password' => ['required', 'string', 'max:255', 'regex:/\A[0-9a-z]++\z/ui'],
+            'password' => ['required', 'string', 'min:8', 'max:255', 'regex:/\A[0-9a-z]++\z/ui'],
         ]);
 
         $user = User::create([
