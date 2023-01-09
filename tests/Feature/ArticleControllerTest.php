@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use App\Models\Article;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Hash;
 use Tests\TestCase;
 
 class ArticleControllerTest extends TestCase
@@ -19,7 +20,7 @@ class ArticleControllerTest extends TestCase
 
         $this->user = User::factory()->createOne([
             'login_id' => 'admin',
-            'password' => md5('12345678'),
+            'password' => Hash::make('12345678'),
         ]);
     }
 
