@@ -50,10 +50,9 @@ final class PasswrodController extends Controller
             ]);
         }
 
-        $attributes = $request->all();
-        $attributes['password'] = Hash::make($request->password);
-
-        $request->user()->update($attributes);
+        $request->user()->update([
+            'password' => Hash::make($request->password),
+        ]);
 
         return response()->json();
     }
