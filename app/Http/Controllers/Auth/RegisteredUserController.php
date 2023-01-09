@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 final class RegisteredUserController extends Controller
 {
@@ -25,7 +26,7 @@ final class RegisteredUserController extends Controller
 
         $user = User::create([
             'login_id' => $request->login_id,
-            'password' => md5($request->password),
+            'password' => Hash::make($request->password),
         ]);
 
         Auth::login($user);
