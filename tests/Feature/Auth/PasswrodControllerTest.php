@@ -47,7 +47,8 @@ class PasswrodControllerTest extends TestCase
     public function 正常にパスワードを更新できる()
     {
         $request = [
-            'password' => 'newpassword',
+            'password' => self::PASSWORD,
+            'new_password' => 'newpassword',
         ];
 
         $response = $this
