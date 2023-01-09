@@ -48,7 +48,7 @@ final class ArticleController extends Controller
             ->orderByDesc('a.created_at');
 
         if ($request->has('title')) {
-            $query->whereRaw("title collate utf8_unicode_ci like '%{$request->title}%'");
+            $query->whereRaw("title collate utf8mb4_0900_ai_ci like '%{$request->title}%'");
         }
 
         $paginator = $query->paginate($request->per_page, [
