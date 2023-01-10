@@ -27,6 +27,7 @@
 
 <script>
 import { debounce } from 'lodash'
+import DOMPurify from 'dompurify'
 import { marked } from 'marked'
 import articleRepository from '@/repositories/articleRepository'
 
@@ -49,7 +50,7 @@ export default {
   methods: {
     onInputBody: debounce(function (e) {
       this.form.body = e.target.value
-      this.htmlBody = marked(e.target.value)
+      this.htmlBody = DOMPurify.sanitize(marked(e.target.value))
     }, 300),
     // 記事を取得
     async getArticle() {
@@ -60,7 +61,7 @@ export default {
       }
       this.form.title = article.title
       this.form.body = article.body
-      this.htmlBody = marked(article.body)
+      this.htmlBody = DOMPurify.sanitize(marked(article.body))
     },
     // 送信
     async onClickSend() {
