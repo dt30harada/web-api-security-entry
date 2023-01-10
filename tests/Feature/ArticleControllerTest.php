@@ -36,7 +36,7 @@ class ArticleControllerTest extends TestCase
 
         $response = $this
             ->actingAs($this->user)
-            ->getJson('/api/articles?'.http_build_query($request));
+            ->postJson('/api/articles', $request);
 
         $response->assertStatus(200);
         $this->assertDatabaseHas('articles', [
