@@ -32,7 +32,7 @@ Route::middleware('auth')->group(function () {
     });
 
     Route::prefix('articles')->group(function () {
-        Route::get('', [ArticleController::class, 'store']);
+        Route::post('', [ArticleController::class, 'store']);
         Route::post('query', [ArticleController::class, 'query']);
         Route::get('{article}', [ArticleController::class, 'show']);
         Route::put('{article}', [ArticleController::class, 'update']);

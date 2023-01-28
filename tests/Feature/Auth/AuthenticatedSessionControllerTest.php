@@ -4,13 +4,16 @@ namespace Tests\Feature\Auth;
 
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Hash;
 use Tests\TestCase;
 
 class AuthenticatedSessionControllerTest extends TestCase
 {
     use RefreshDatabase;
 
-    private readonly User $user;
+    private const PASSWORD = '12345678';
+
+    private User $user;
 
     public function setUp(): void
     {
@@ -18,7 +21,7 @@ class AuthenticatedSessionControllerTest extends TestCase
 
         $this->user = User::factory()->createOne([
             'login_id' => 'admin',
-            'password' => md5('123456'),
+            'password' => Hash::make(self::PASSWORD),
         ]);
     }
 
@@ -29,7 +32,7 @@ class AuthenticatedSessionControllerTest extends TestCase
     {
         $request = [
             'login_id' => 'admin',
-            'password' => '123456',
+            'password' => self::PASSWORD,
         ];
 
         $response = $this->postJson('/api/auth/login', $request);

@@ -20,6 +20,7 @@
 </template>
 
 <script>
+import DOMPurify from 'dompurify'
 import { marked } from 'marked'
 import articleRepository from '@/repositories/articleRepository'
 
@@ -47,7 +48,7 @@ export default {
       }
       this.article = article
       if (article.body) {
-        this.htmlBody = marked(article.body)
+        this.htmlBody = DOMPurify.sanitize(marked(article.body))
       }
     },
     async onClickEdit() {

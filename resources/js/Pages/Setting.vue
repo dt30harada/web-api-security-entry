@@ -47,7 +47,7 @@ export default {
       this.confirmed = true
     },
     async changePassword() {
-      const res = await authRepository.changePassword(this.newPassword)
+      const res = await authRepository.changePassword(this.password, this.newPassword)
       if (res.error) {
         const message = _.has(res, 'message') ? res.message : 'error.'
         alert(message)

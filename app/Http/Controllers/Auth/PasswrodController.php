@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
 
 final class PasswrodController extends Controller
@@ -21,12 +22,7 @@ final class PasswrodController extends Controller
             'password' => ['required', 'string'],
         ]);
 
-        $match = $request->user()->where([
-            'login_id' => $request->user()->login_id,
-            'password' => md5($request->password),
-        ])->exists();
-
-        if ($match) {
+        if (Hash::check($request->password, $request->user()->password)) {
             return response()->json();
         }
 
@@ -44,13 +40,19 @@ final class PasswrodController extends Controller
     public function update(Request $request): JsonResponse
     {
         $request->validate([
-            'password' => ['required', 'string', 'max:255', 'regex:/\A[0-9a-z]++\z/ui'],
+            'password' => ['required', 'string'],
+            'new_password' => ['required', 'string', 'min:8', 'max:255', 'regex:/\A[0-9a-z]++\z/ui'],
         ]);
 
-        $attributes = $request->all();
-        $attributes['password'] = md5($request->password);
+        if (! Hash::check($request->password, $request->user()->password)) {
+            throw ValidationException::withMessages([
+                'password' => 'Invalid password.',
+            ]);
+        }
 
-        $request->user()->update($attributes);
+        $request->user()->update([
+            'password' => Hash::make($request->password),
+        ]);
 
         return response()->json();
     }

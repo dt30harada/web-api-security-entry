@@ -13,7 +13,7 @@ export default {
       body,
     }
     try {
-      const res = await axios.get(`${API_BASE_URL}/articles`, { params })
+      const res = await axios.post(`${API_BASE_URL}/articles`, params)
       return res.data.data
     } catch (e) {
       if (e.response.status === 422) {

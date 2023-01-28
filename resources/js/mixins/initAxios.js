@@ -9,11 +9,23 @@ export default {
           return response
         },
         error => {
-          if (error.response.status === 401) {
-            // 未認証の場合はログイン画面へ
+          const status = error.response.status
+          if ([401, 429].includes(status)) {
+            // 未認証orレート制限によるエラーの場合はログイン画面へ
             this.$store.commit('User/reset')
-            if (this.$route.name !== 'login') {
-              this.$router.push({ name: 'login' })
+            let msg = ''
+            switch (status) {
+              case 401:
+                msg = 'Unauthenticated.'
+                break
+              case 429:
+                msg = 'Too many requests.'
+                break
+            }
+            if (this.$route.meta.requiredAuth) {
+              if (confirm(msg)) this.$router.push({ name: 'login' })
+            } else if (status === 429) {
+              alert(msg)
             }
           }
           return Promise.reject(error)
