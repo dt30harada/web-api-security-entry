@@ -1,9 +1,9 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 
-import Login from '@/Pages/Login'
-import Register from '@/Pages/Register'
-import Setting from '@/Pages/Setting'
+import AccountLogin from '@/Pages/AccountLogin'
+import AccountRegister from '@/Pages/AccountRegister'
+import AccountSetting from '@/Pages/AccountSetting'
 import ArticleList from '@/Pages/ArticleList'
 import ArticleEdit from '@/Pages/ArticleEdit'
 import ArticleShow from '@/Pages/ArticleShow'
@@ -14,17 +14,17 @@ const routes = [
   {
     path: '/login',
     name: 'login',
-    component: Login,
+    component: AccountLogin,
   },
   {
     path: '/register',
     name: 'register',
-    component: Register,
+    component: AccountRegister,
   },
   {
     path: '/setting',
     name: 'setting',
-    component: Setting,
+    component: AccountSetting,
     meta: {
       requiredAuth: true,
     },

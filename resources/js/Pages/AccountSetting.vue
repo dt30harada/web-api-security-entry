@@ -8,11 +8,11 @@
       <div class="form-item">
         <template v-if="confirmed">
           <label for="new-password">新しいパスワード</label>
-          <input id="new-password" autocomplete="off" type="password" v-model="newPassword" />
+          <input id="new-password" v-model="newPassword" autocomplete="off" type="password" />
         </template>
         <template v-else>
           <label for="password">現在のパスワード</label>
-          <input id="password" autocomplete="off" type="password" v-model="password" />
+          <input id="password" v-model="password" autocomplete="off" type="password" />
         </template>
       </div>
       <div class="form-item">

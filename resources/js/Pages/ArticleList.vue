@@ -4,7 +4,7 @@
     <router-link to="articles/new">記事を投稿する</router-link>
     <div class="search">
       <label for="search-title">タイトル</label>
-      <input type="text" v-model="search.title" id="search-title" />
+      <input id="search-title" v-model="search.title" type="text" />
       <button @click="onClickSearch">検索</button>
     </div>
     <div style="margin-bottom: 8px">{{ total }}件中{{ search.perPage }}件表示</div>

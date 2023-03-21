@@ -4,7 +4,7 @@
     <div class="form">
       <div class="form-item">
         <label for="article-title">タイトル</label>
-        <input id="article-title" autocomplete="off" type="text" v-model="form.title" />
+        <input id="article-title" v-model="form.title" autocomplete="off" type="text" />
       </div>
       <div class="form-item md-editor">
         <div class="md-editor-input-area">

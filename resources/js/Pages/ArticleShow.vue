@@ -10,7 +10,7 @@
           <span>更新日時: {{ article.updated_at }}</span>
         </div>
         <div v-if="article.is_owner">
-          <button @click="onClickEdit" style="margin-right: 1rem">編集</button>
+          <button style="margin-right: 1rem" @click="onClickEdit">編集</button>
           <button @click="onClickDelete">削除</button>
         </div>
       </div>

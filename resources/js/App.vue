@@ -25,10 +25,6 @@ import initAxios from '@/mixins/initAxios'
 
 export default {
   mixins: [initAxios],
-  created() {
-    this.setAxiosInterceptors()
-    this.fetchLoginUser()
-  },
   computed: {
     user: {
       get() {
@@ -41,6 +37,10 @@ export default {
     isAuth() {
       return this.$store.getters['User/isAuth']
     },
+  },
+  created() {
+    this.setAxiosInterceptors()
+    this.fetchLoginUser()
   },
   methods: {
     async fetchLoginUser() {

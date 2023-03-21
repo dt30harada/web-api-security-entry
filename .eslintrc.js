@@ -4,13 +4,20 @@ module.exports = {
     node: true,
   },
   extends: [
-    "plugin:vue/recommended",
-    "eslint:recommended",
-    "prettier",
+    'plugin:vue/recommended',
+    'eslint:recommended',
+    'prettier',
   ],
-  parserOptions: {
-    sourceType: "module",
-    ecmaVersion: 6,
+  globals: {
+    _: true,
+    axios: true,
+    window: true
   },
-  rules: {},
+  parserOptions: {
+    sourceType: 'module',
+    ecmaVersion: 'latest',
+  },
+  rules: {
+    'vue/no-v-html': 'off',
+  },
 };
