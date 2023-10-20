@@ -10,7 +10,7 @@ RUN apt-get update \
     && pecl install xdebug \
     && docker-php-ext-enable xdebug \
     && : 'Install Node.js' \
-    && curl -sL https://deb.nodesource.com/setup_14.x | bash - \
+    && curl -sL https://deb.nodesource.com/setup_18.x | bash - \
     && apt-get install -y nodejs \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* \
