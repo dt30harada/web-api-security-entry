@@ -22,14 +22,19 @@
         9003
     ],
 
-	"extensions": [
-		"editorconfig.editorconfig",
-		"eamodio.gitlens",
-		"mhutchie.git-graph",
-		"bmewburn.vscode-intelephense-client",
-		"neilbrayfield.php-docblocker",
-		"onecentlin.laravel-blade",
-		"xdebug.php-debug",
-		"octref.vetur"
-	]
+	// Configure tool-specific properties.
+	"customizations": {
+        "vscode": {
+            "extensions": [
+                "editorconfig.editorconfig",
+                "eamodio.gitlens",
+                "mhutchie.git-graph",
+                "bmewburn.vscode-intelephense-client",
+                "neilbrayfield.php-docblocker",
+                "onecentlin.laravel-blade",
+                "xdebug.php-debug",
+                "octref.vetur"
+            ]
+        }
+    }
 }
