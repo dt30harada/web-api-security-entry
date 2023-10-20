@@ -18,7 +18,6 @@
     - DB: MySQL 8.0
   - フロントエンド: Vue.js 2.x
 
-
 ## 参考
 
 - [安全なウェブサイトの作り方 | IPA](https://www.ipa.go.jp/security/vuln/websecurity.html)
@@ -58,16 +57,28 @@ cp .env.example .env
 ./vessel start
 ```
 
-アセットのビルド
-
-```bash
-./vessel npm ci && ./vessel npm run dev
-```
-
 バックエンド用依存パッケージをインストール
 
 ```bash
 ./vessel composer i
+```
+
+DBマイグレーションを実行
+
+```bash
+./vessel artisan migrate
+```
+
+フロントエンド用依存パッケージをインストール
+
+```bash
+./vessel npm ci
+```
+
+アセットのビルド
+
+```bash
+./vessel npm run dev
 ```
 
 サンプルアプリケーションにアクセス
