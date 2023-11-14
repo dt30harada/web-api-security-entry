@@ -11,6 +11,9 @@ import axios from 'axios'
 window.axios = axios
 
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest'
+window.axios.defaults.headers.common['X-XSRF-TOKEN'] = decodeURIComponent(
+  document.cookie.split('; ').find(item => item.startsWith('XSRF-TOKEN')).split('=')[1]
+)
 window.axios.defaults.withCredentials = true
 
 /**
