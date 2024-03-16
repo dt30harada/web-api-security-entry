@@ -17,7 +17,7 @@ class RegisteredUserControllerTest extends TestCase
     {
         $request = [
             'login_id' => 'admin',
-            'password' => '123456',
+            'password' => '12345678',
         ];
 
         $response = $this->postJson('/api/auth/register', $request);
@@ -37,7 +37,7 @@ class RegisteredUserControllerTest extends TestCase
         /** @var \Illuminate\Contracts\Auth\Authenticatable $user */
         $user = User::factory()->createOne([
             'login_id' => 'admin',
-            'password' => '123456',
+            'password' => '12345678',
         ]);
 
         $response = $this->actingAs($user)->getJson('/api/auth/user');

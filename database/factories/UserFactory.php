@@ -19,7 +19,7 @@ class UserFactory extends Factory
     {
         return [
             'login_id' => Str::random(6),
-            'password' => md5(Str::random(6)),
+            'password' => md5(Str::random(8)),
         ];
     }
 }
