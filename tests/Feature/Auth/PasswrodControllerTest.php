@@ -4,15 +4,16 @@ namespace Tests\Feature\Auth;
 
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Hash;
 use Tests\TestCase;
 
 class PasswrodControllerTest extends TestCase
 {
     use RefreshDatabase;
 
-    private const PASSWORD = '123456';
+    private const PASSWORD = '12345678';
 
-    private readonly User $user;
+    private User $user;
 
     public function setUp(): void
     {
@@ -20,7 +21,7 @@ class PasswrodControllerTest extends TestCase
 
         $this->user = User::factory()->createOne([
             'login_id' => 'admin',
-            'password' => md5(self::PASSWORD),
+            'password' => Hash::make(self::PASSWORD),
         ]);
     }
 
@@ -46,7 +47,8 @@ class PasswrodControllerTest extends TestCase
     public function 正常にパスワードを更新できる()
     {
         $request = [
-            'password' => 'newpassword',
+            'password' => self::PASSWORD,
+            'new_password' => 'newpassword',
         ];
 
         $response = $this
@@ -54,6 +56,6 @@ class PasswrodControllerTest extends TestCase
             ->putJson('/api/auth/password', $request);
 
         $response->assertStatus(200);
-        $this->assertSame(md5($request['password']), $this->user->password);
+        $this->assertTrue(Hash::check($request['password'], $this->user->password));
     }
 }

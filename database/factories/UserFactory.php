@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
 /**
@@ -19,7 +20,7 @@ class UserFactory extends Factory
     {
         return [
             'login_id' => Str::random(6),
-            'password' => md5(Str::random(6)),
+            'password' => Hash::make(Str::random(8)),
         ];
     }
 }
