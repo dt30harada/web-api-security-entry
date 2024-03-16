@@ -4,6 +4,7 @@ namespace Tests\Feature\Auth;
 
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Hash;
 use Tests\TestCase;
 
 class RegisteredUserControllerTest extends TestCase
@@ -25,7 +26,6 @@ class RegisteredUserControllerTest extends TestCase
         $response->assertStatus(201);
         $this->assertDatabaseHas('users', [
             'login_id' => $request['login_id'],
-            'password' => md5($request['password']),
         ]);
     }
 
@@ -37,7 +37,7 @@ class RegisteredUserControllerTest extends TestCase
         /** @var \Illuminate\Contracts\Auth\Authenticatable $user */
         $user = User::factory()->createOne([
             'login_id' => 'admin',
-            'password' => '12345678',
+            'password' => Hash::make('12345678'),
         ]);
 
         $response = $this->actingAs($user)->getJson('/api/auth/user');

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
 
 final class PasswrodController extends Controller
@@ -21,12 +22,7 @@ final class PasswrodController extends Controller
             'password' => ['required', 'string'],
         ]);
 
-        $match = $request->user()->where([
-            'login_id' => $request->user()->login_id,
-            'password' => md5($request->password),
-        ])->exists();
-
-        if ($match) {
+        if (Hash::check($request->password, $request->user()->password)) {
             return response()->json();
         }
 
@@ -48,7 +44,7 @@ final class PasswrodController extends Controller
         ]);
 
         $attributes = $request->all();
-        $attributes['password'] = md5($request->password);
+        $attributes['password'] = Hash::make($request->password);
 
         $request->user()->update($attributes);
 

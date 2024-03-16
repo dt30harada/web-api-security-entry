@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
 
 final class AuthenticatedSessionController extends Controller
@@ -32,10 +33,9 @@ final class AuthenticatedSessionController extends Controller
 
         $user = User::query()
             ->whereRaw(sprintf("login_id = '%s'", $request->login_id))
-            ->whereRaw(sprintf("password = '%s'", md5($request->password)))
             ->first();
 
-        if ($user === null) {
+        if ($user === null || ! Hash::check($request->password, $user->password)) {
             throw ValidationException::withMessages([
                 'login_id' => 'Invalid credentials.',
             ]);
