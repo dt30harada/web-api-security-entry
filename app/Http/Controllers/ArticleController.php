@@ -106,6 +106,8 @@ final class ArticleController extends Controller
      */
     public function update(StoreRequest $request, Article $article): JsonResponse
     {
+        $this->authorize('update', $article);
+
         $article->update($request->only('title', 'body'));
 
         return response()->json();
@@ -119,6 +121,8 @@ final class ArticleController extends Controller
      */
     public function destroy(Article $article): JsonResponse
     {
+        $this->authorize('delete', $article);
+
         $article->delete();
 
         return response()->json();
