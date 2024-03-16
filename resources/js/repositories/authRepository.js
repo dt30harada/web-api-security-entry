@@ -96,11 +96,13 @@ export default {
    * パスワード変更
    *
    * @param {String} password
+   * @param {String} newPassword
    */
-  async changePassword(password) {
+  async changePassword(password, newPassword) {
     try {
       const params = {
         password,
+        new_password: newPassword,
       }
       await axios.put(`${API_BASE_URL}/auth/password`, params)
       return { error: false }

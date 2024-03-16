@@ -40,8 +40,15 @@ final class PasswrodController extends Controller
     public function update(Request $request): JsonResponse
     {
         $request->validate([
-            'password' => ['required', 'string', 'max:255', 'regex:/\A[0-9a-z]++\z/ui'],
+            'password' => ['required', 'string'],
+            'new_password' => ['required', 'string', 'min:8', 'max:255', 'regex:/\A[0-9a-z]++\z/ui'],
         ]);
+
+        if (! Hash::check($request->password, $request->user()->password)) {
+            throw ValidationException::withMessages([
+                'password' => 'Invalid password.',
+            ]);
+        }
 
         $attributes = $request->all();
         $attributes['password'] = Hash::make($request->password);
